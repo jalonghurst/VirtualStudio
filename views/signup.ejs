@@ -1,0 +1,51 @@
+<%- include('partials/header') -%>
+<main class="container p-12 ">
+  <div class="row justify-content-center">
+    <section class="col-6 mt-1">
+      <div class="card backdrop-opacity-30 bg-white/60 p-5">
+        <header class="row justify-content-center">
+          <div class="text-center">
+            <h1 class="">Sign up to an account using the form below.</h1>
+            <h1 class="">Already have an account? <a class="text-blue-500" href="/login">Log in.</a></h1>
+          </div>
+        </header>
+        <% if (locals.messages.errors) { %>
+        <% messages.errors.forEach( el => { %>
+        <div class="alert alert-error shadow-lg">
+          <div><svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg><span><%= el.msg %></span></div>
+        </div>
+        <% }) %>
+        <% } %>
+        <% if (locals.messages.info) { %>
+        <% messages.info.forEach( el => { %>
+        <div class="alert alert-info"><%= el.msg %></div>
+        <% }) %>
+        <% } %>
+        <form action="/signup" method="POST">
+          <div class="mb-3">
+            <label for="userName" class="form-label">User Name</label>
+            <input type="text" class="form-control" id="userName" name="userName">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email">
+            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" name="password">
+          </div>
+          <div class="mb-3">
+            <label for="confirmPassword" class="form-label">Confirm Password</label>
+            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword">
+          </div>
+          <button type="submit" class="btn btn-outline btn-primary">Submit</button>
+        </form>
+      </div>
+    </section>
+  </div>
+</main>
+
+<%- include('partials/footer') -%>

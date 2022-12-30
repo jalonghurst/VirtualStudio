@@ -1,0 +1,25 @@
+<%- include('partials/header') -%>
+  <div class="container">
+    <div class="card-form card shadow-xl mt-5 mb-5">
+    <div class="row place-content-center ">
+      <ul class=" row list-unstyled grid grid-cols-1 divide-y mt-2 mb-2">
+        <% for(var i=0; i<posts.length; i++) {%>
+          <li class="justify-content-between mt-5 w-auto">
+            <a class=" " href="/post/<%= posts[i]._id%>">
+              <img class="img-fluid mt-5 w-full" src="<%= posts[i].image%>">
+            </a>
+            <p class="mt-3">Posted by <a class="text-sky-800" href="/profile/<%=posts[i].user %>"><%= posts[i].username %></a></p>
+            <a href="/post/<%= posts[i]._id%>"><p class="mt-1 font-medium"><%= posts[i].title %></p></a>
+            <% if(posts[i].caption.length >= 500) {%> 
+              <p class="mt-1"><%= posts[i].caption.slice(0,500)%><a href="/post/<%= posts[i]._id%>"><span class="text-sky-700">...read more</span></a></p>
+              <%} else { %>
+              <p><%=posts[i].caption%></p>
+              <% } %>
+            <p class="text-slate-500 text-sm"><%= posts[i].createdAt.toDateString() %></p>
+          </li>
+        <% } %>
+        </ul>
+    </div>
+  </div>
+  </div>  
+<%- include('partials/footer') -%>

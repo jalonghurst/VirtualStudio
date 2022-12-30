@@ -1,0 +1,214 @@
+<%- include('partials/header') -%>
+
+<div class="container h-auto p-6">
+  <div class="card-form card shadow-xl">
+    <div class="row mt-5">
+      <div class="col-6">
+        <div>
+          <!-- PROFILE PICTURE -->
+          <% if(user.profileImg != undefined || user.profileImg != null) { %>
+          <div class=" w-64 text-center ">
+            <div class="m-2 w-64">
+              <img class="w-64 h-64 rounded-full absolute" src="<%= user.profileImg%>" alt="" />
+              <% if(user.id === loggedInUser.id) { %>
+              <div class="w-64 h-64 group hover:bg-gray-200 opacity-60 rounded-full flex justify-center items-center cursor-pointer transition duration-500">
+
+                <form action="/post/deleteProfileImg/?_method=DELETE" method="POST" class="col-3">
+                  <button class="m-2 text-sky-700 cursor-pointer" type="submit"><img class="hidden group-hover:block w-12" src="https://www.pngrepo.com/png/133608/512/os-x.png" /></button>
+                </form>
+                <% } %>
+                <% } %>
+                <% if(user.profileImg === undefined || user.profileImg === null) { %>
+                <div class="w-64 text-center">
+                  <div class="m-2 w-64">
+                    <img class="w-64 h-64 rounded-full absolute" src="/imgs/avatar.jpg" alt="" />
+                    <% if(user.id === loggedInUser.id) { %>
+                    <div class="w-64 h-64 group hover:bg-gray-200 opacity-60 rounded-full flex justify-center items-center cursor-pointer transition duration-500">
+
+                      <label for="my-modalProfileImg" class="m-2 text-sky-700 cursor-pointer"><img class="hidden group-hover:block w-12" src="https://www.svgrepo.com/show/33565/upload.svg" /></label>
+                      <% } %>
+                      <% } %>
+
+                    </div>
+                  </div>
+                </div>
+                <p class="text-lg font-medium mb-2"><%= user.userName %></p>
+                <p><span class="font-medium">Contact: </span><%=user.email %></p>
+                <p><span class="font-medium">Member since</span>: <%= user.userCreatedAt.toDateString() %></p>
+
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="row justify-content-center">
+
+                <% if (user.bio != undefined) { %> <span><strong>Biography</strong>: <blockquote class="m-0">
+                    <p class="bg-slate-100 p-16 rounded italic tracking-wide"><%= user.bio %></p>
+                  </blockquote></span>
+                <div class="row">
+                  <% if(user.id === loggedInUser.id) { %>
+
+                  <label for="my-modalbio-edit" class="m-2 text-sky-800 cursor-pointer"><i class="far fa-edit"></i></label>
+                  <!-- DELETE BIO -->
+                  <form action="/post/deleteBio/?_method=DELETE" method="POST" class="col-3">
+                    <button class="btn btn-ghost text-sky-800 fa fa-trash" type="submit"></button>
+                  </form>
+                  <% } %>
+                  <% } %>
+                  <!-- DELETE ACCOUNT  -->
+                  <% if(user.id === loggedInUser.id) { %><form action="/post/deleteAccount/?_method=DELETE" method="POST" class="col-3">
+                    <label for="my-modalaccount-delete" class="m-2 text-sky-800 cursor-pointer">delete your account</label>
+                  </form>
+
+                  <% } %>
+                </div>
+                <a class="btn btn-outline btn-accent m-2" href="/feed">Return to Feed</a>
+                <!-- IF LOGGED IN USER'S PROFILE DISPLAY THESE OPTIONS -->
+                <% if(user.id === loggedInUser.id) { %>
+                <label for="my-modal" class="btn btn-outline m-2">Create a new post</label>
+                <% if (user.bio === undefined || user.bio === null) { %><label for="my-modalbio" class="btn btn-outline m-2 ">Write a bio</label> <% } %>
+                <% } %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SHOW PROFILE ARTWORK/COLLECTIONS -->
+      <div class="card-form card">
+        <div class="row ">
+          <div class="col-12">
+            <h1 class="text-lg font-bold mb-2">Portfolio: <%= posts.length %></h1>
+
+            <ul class="row list-unstyled grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <% for(var i=0; i<posts.length; i++) {%>
+              <li class="border rounded-md stretch justify-content-between ">
+                <a href="/post/<%= posts[i]._id%>">
+                  <h2 class="font-medium mt-5 mb-3"><%= posts[i].title %></h2>
+                </a>
+                <a class="" href="/post/<%= posts[i]._id%>">
+                  <img class="img-fluid  hover:grayscale hover:scale-105" src="<%= posts[i].image%>">
+                </a>
+                <!-- Cutting description into segment -->
+                <% if(posts[i].caption.length >= 350) {%>
+                <p class="mt-2"><%= posts[i].caption.slice(0,350)%><a href="/post/<%= posts[i]._id%>"><span class="text-sky-700">...read more</span></a></p>
+                <%} else { %>
+                <p><%=posts[i].caption%></p>
+                <% } %>
+                <p class="text-slate-500 text-sm mt-2 mb-2"><%= posts[i].createdAt.toDateString() %></p>
+              </li>
+              <% } %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL FOR CREATING A NEW POST -->
+  <input type="checkbox" id="my-modal" class="modal-toggle" />
+  <div class="modal">
+    <div class="modal-box">
+      <div class="mt-5">
+        <h2 class="text-lg font-medium mb-2">Create a new post</h2>
+        <form action="/post/createPost" enctype="multipart/form-data" method="POST">
+          <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" class="form-control" id="title" name="title">
+          </div>
+          <div class="mb-3">
+            <label for="caption" class="form-label">Caption</label>
+            <textarea class="form-control" id="caption" name="caption"></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="imgUpload" class="form-label">Image (JPG and PNG files supported)</label>
+            <input type="file" class="form-control" id="imageUpload" name="file">
+          </div>
+          <button type="submit" class="btn btn-outline btn-accent" value="Upload">Submit</button>
+        </form>
+      </div>
+      <div class="modal-action">
+        <label for="my-modal" class="btn">Go back</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL FOR CREATING A PROFILE PICTURE -->
+  <input type="checkbox" id="my-modalProfileImg" class="modal-toggle" />
+  <div class="modal">
+    <div class="modal-box">
+      <div class="mt-5">
+        <h2>Add an image to your profile</h2>
+        <form action="/post/createProfileImg" enctype="multipart/form-data" method="POST">
+          <div class="mb-3">
+            <label for="imgUpload" class="form-label">Image</label>
+            <input type="file" class="form-control" id="imageUpload" name="file">
+          </div>
+          <button type="submit" class="btn btn-outline btn-accent" value="Upload">Submit</button>
+        </form>
+      </div>
+      <div class="modal-action">
+        <label for="my-modalProfileImg" class="btn">Go back</label>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- MODAL FOR CREATING BIO -->
+  <input type="checkbox" id="my-modalbio" class="modal-toggle" />
+  <div class="modal">
+    <div class="modal-box">
+      <div class="mt-5">
+        <h3 class="font-bold text-lg">Add a short biography about yourself to your profile to help others get to know you.</h3>
+        <p class="py-4"> Tell us about your background, achievements, personal objectives and/or inspirations behind your work.</p>
+        <form action="/post/createBio" method="POST">
+          <div class="mb-3">
+            <label for="bio" class="form-label">Bio</label>
+            <textarea class="form-control" id="bio" name="bio"></textarea>
+          </div>
+          <button type="submit" class="btn btn-outline btn-accent">Submit</button>
+        </form>
+      </div>
+      <div class="modal-action">
+        <label for="my-modalbio" class="btn">Go back</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL FOR EDITING BIO -->
+  <input type="checkbox" id="my-modalbio-edit" class="modal-toggle" />
+  <div class="modal">
+    <div class="modal-box">
+      <div class="mt-5">
+        <h3 class="font-bold text-lg">Make changes to your biography below.</h3>
+        <p class="py-4"> Tell us about your background, achievements, personal objectives and/or inspirations behind your work.</p>
+        <form action="/post/editBio/?_method=PUT" method="POST">
+          <div class="mb-3">
+            <label for="bio" class="form-label">Bio</label>
+            <textarea maxlength="1000" class="form-control textarea-primary" id="bio" name="bio"><%=user.bio %></textarea>
+          </div>
+          <button type="submit" class="btn btn-outline btn-accent">Submit Changes</button>
+        </form>
+      </div>
+      <div class="modal-action">
+        <label for="my-modalbio-edit" class="btn">Go back</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONFIRMATION TO DELETE USER ACCOUNT -->
+  <input type="checkbox" id="my-modalaccount-delete" class="modal-toggle" />
+  <div class="modal">
+    <div class="modal-box">
+      <div class="mt-5">
+        <h3 class="font-bold text-lg">Are you sure that you want to delete your account?</h3>
+        <p class="py-4">Your profile and all your posts will be deleted permanently.</p>
+        <form action="/post/deleteAccount/?_method=DELETE" method="POST">
+          <button type="submit" class="btn btn-outline btn-accent">Yes, delete my account.</button>
+        </form>
+      </div>
+      <div class="modal-action">
+        <label for="my-modalaccount-delete" class="btn">Cancel</label>
+      </div>
+    </div>
+  </div>
+  <%- include('partials/footer') -%>

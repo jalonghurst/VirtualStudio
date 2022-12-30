@@ -1,0 +1,48 @@
+<%- include('partials/header') -%>
+
+<div class="container">
+  <div class="card-form card shadow-xl m-2">
+  <div class="row justify-content-center mt-2">
+    <div class="md:col-6">
+      <img class="shrink w-full" src="<%= post.image%>" />
+      <div class="row justify-content-between">
+        <!-- LIKE POST -->
+        <!-- <form
+          class="col-1"
+          action="/post/likePost/<%= post.id %>?_method=PUT"
+          method="POST"
+        >
+          <button class="btn btn-ghost fa fa-heart" type="submit"><%= post.likes %></button>
+        </form> -->
+        <%if(post.user == user.id){ %>
+        <form
+          action="/post/deletePost/<%= post.id %>?_method=DELETE"
+          method="POST"
+          class="col-3"
+        >
+          <button class="btn btn-ghost fa fa-trash" type="submit"></button>
+        </form>
+        <%}%>
+      </div>
+    </div>
+
+    <div class="">
+      <h2 class="text-lg font-bold mt-2"><%= post.title %></h2>
+      <!-- <div class="avatar">
+        <div class="w-8 rounded-full">
+          <img src="<%= user.profileImg%>" />
+        </div> -->
+      </div><p>Posted by <a class="text-sky-800" href="/profile/<%=post.user %>"><%= post.username %></a></p>
+        <p><%= post.caption %></p>
+        <span class="text-slate-400 text-sm"><%= post.createdAt.toDateString() %></span>
+      
+    </div>
+    <div class="col-12 md:col-6 mt-5">
+      <a class="btn btn-ghost" href="/profile">Return to Profile</a>
+      <a class="btn btn-ghost" href="/feed">Return to Feed</a>
+    </div>
+  </div>
+</div>
+</div>
+
+<%- include('partials/footer') -%>
