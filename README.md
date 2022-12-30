@@ -1,6 +1,6 @@
 VirtualStudio is a virtual gallery space that allows artists and creatives to showcase their work in an online, accessible format.
 
-A node.js/express.js app built on MVC architecture, images are stored with cloudinary, and all data using MongoDB database /Mongoose. 
+A node.js/express.js app built on MVC architecture. Includes authentication using passport. Images submitted by users are stored with cloudinary, and all data using MongoDB atlas database /Mongoose. 
 
 Users have the ability to : 
 
