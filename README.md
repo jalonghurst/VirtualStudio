@@ -13,9 +13,9 @@ Users have the ability to :
 
   About VirtualStudio
 
-  Virtualstudio is a virtual gallery space for artists and creatives. We want to eliminate the need for expensive gallery space for those creating art and design works. We want to create an online platform that makes it easier to show professional works and make it easier for artists to sell their work.
+  "Virtualstudio is a virtual gallery space for artists and creatives. We want to eliminate the need for expensive gallery space for those creating art and design works. We want to create an online platform that makes it easier to show professional works and make it easier for artists to sell their work."
 
-  We believe in the power of technology. With Virtualstudio you can leverage technology to create a virtual gallery space that offers so much more than a traditional brick-and-mortar space
+  "We believe in the power of technology. With Virtualstudio you can leverage technology to create a virtual gallery space that offers so much more than a traditional brick-and-mortar space."
             
   -No more lugging around heavy canvases or awkward frames
             
