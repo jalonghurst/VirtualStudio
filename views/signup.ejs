@@ -1,12 +1,12 @@
 <%- include('partials/header') -%>
-<main class="container p-12 ">
+<main class="container p-6 sm:p-12 ">
   <div class="row justify-content-center">
-    <section class="col-6 mt-1">
-      <div class="card backdrop-opacity-30 bg-white/60 p-5">
+    <section class="w-full md:w-4/6 lg:w-3/6">
+      <div class="card backdrop-opacity-30 bg-white/90 sm:bg-white/60 p-5">
         <header class="row justify-content-center">
           <div class="text-center">
             <h1 class="">Sign up to an account using the form below.</h1>
-            <h1 class="">Already have an account? <a class="text-blue-500" href="/login">Log in.</a></h1>
+            <h1 class="mb-3">Already have an account? <a class="text-blue-500" href="/login">Log in.</a></h1>
           </div>
         </header>
         <% if (locals.messages.errors) { %>
