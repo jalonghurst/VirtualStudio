@@ -1,10 +1,11 @@
 <%- include('partials/header') -%>
   <div class="container">
     <div class="card-form card shadow-xl mt-5 mb-5">
-    <div class="row place-content-center ">
+    <div class=" row place-content-center ">
+        <p class="text-center text-lg font-medium">Latest Submissions</p>
       <ul class=" row list-unstyled grid grid-cols-1 divide-y mt-2 mb-2">
         <% for(var i=0; i<posts.length; i++) {%>
-          <li class="justify-content-between mt-5 w-auto">
+          <li class="justify-content-between mt-2 w-auto">
             <a class=" " href="/post/<%= posts[i]._id%>">
               <img class="img-fluid mt-5 w-full" src="<%= posts[i].image%>">
             </a>
