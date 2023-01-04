@@ -13,6 +13,8 @@ router.post("/createBio", postsController.createBio);
 
 router.post("/createProfileImg", upload.single("file"), postsController.createProfileImg);
 
+router.put("/editPost/:id", postsController.editPost);
+
 router.put("/editBio", postsController.editBio);
 
 router.put("/likePost/:id", postsController.likePost);

@@ -73,6 +73,22 @@ module.exports = {
       console.log(err);
     }
   },
+  editPost: async (req, res) => {
+    try {
+      console.log(req)
+      await Post.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          title: req.body.title,
+          caption: req.body.caption,
+        }
+      );
+      console.log("Post has been changed!");
+      res.redirect(`/post/${req.params.id}`);
+    } catch (err) {
+      console.log(err);
+    }
+  }, 
   deletePost: async (req, res) => {
     try {
       // Find post by id

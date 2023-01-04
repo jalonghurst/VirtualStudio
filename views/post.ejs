@@ -2,47 +2,94 @@
 
 <div class="container">
   <div class="card-form card shadow-xl m-2">
-  <div class="row justify-content-center mt-2">
-    <div class="md:col-6">
-      <img class="shrink w-full" src="<%= post.image%>" />
-      <div class="row justify-content-between">
-        <!-- LIKE POST -->
-        <!-- <form
+
+
+    <!-- DROPDOWN MENU FOR LOGGED IN USER PROFILE -->
+    <% if(post.user == user.id) { %><div class="navbar bg-base-100">
+      <div class="flex-none z-10">
+        <ul class="menu menu-horizontal p-0">
+          <li tabindex="0">
+            <a class="btn btn-square btn-ghost">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-5 h-5 stroke-current">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path>
+              </svg>
+            </a>
+            <ul class="p-2 bg-base-100">
+              <!--DELETE POST OPTION  -->
+              <li>
+                <form action="/post/deletePost/<%= post.id %>?_method=DELETE" method="POST" class="col-3 text-sky-800">
+                  <label class="text-sky-800 fa fa-trash" type="submit"></label>Delete Post
+                </form>
+              </li>
+              <!-- EDIT BIOGRAPHY OPTION -->
+              <li><label for="my-modalpost-edit" class="text-sky-800 cursor-pointer"><i class="far fa-edit"></i>Edit Post</label></li>
+
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <% } %>
+
+
+
+    <div class="row justify-content-center mt-2">
+      <div class="md:col-6">
+        <img class="shrink w-full" src="<%= post.image%>" />
+        <div class="row justify-content-between">
+          <!-- LIKE POST -->
+          <!-- <form
           class="col-1"
           action="/post/likePost/<%= post.id %>?_method=PUT"
           method="POST"
         >
           <button class="btn btn-ghost fa fa-heart" type="submit"><%= post.likes %></button>
         </form> -->
-        <%if(post.user == user.id){ %>
-        <form
-          action="/post/deletePost/<%= post.id %>?_method=DELETE"
-          method="POST"
-          class="col-3"
-        >
-          <button class="btn btn-ghost fa fa-trash" type="submit"></button>
-        </form>
-        <%}%>
+         
       </div>
     </div>
 
     <div class="">
       <h2 class="text-lg font-bold mt-2"><%= post.title %></h2>
-      <!-- <div class="avatar">
+          <!-- <div class="avatar">
         <div class="w-8 rounded-full">
           <img src="<%= user.profileImg%>" />
         </div> -->
-      </div><p>Posted by <a class="text-sky-800" href="/profile/<%=post.user %>"><%= post.username %></a></p>
+        </div>
+        <p>Posted by <a class="text-sky-800" href="/profile/<%=post.user %>"><%= post.username %></a></p>
         <p><%= post.caption %></p>
         <span class="text-slate-400 text-sm"><%= post.createdAt.toDateString() %></span>
-      
-    </div>
-    <div class="col-12 md:col-6 mt-5">
-      <a class="btn btn-ghost" href="/profile">Return to Profile</a>
-      <a class="btn btn-ghost" href="/feed">Return to Feed</a>
+
+      </div>
+      <div class="col-12 md:col-6 mt-5">
+        <a class="btn btn-ghost" href="/profile">Return to Profile</a>
+        <a class="btn btn-ghost" href="/feed">Return to Feed</a>
+      </div>
     </div>
   </div>
 </div>
-</div>
 
+<!-- MODAL FOR EDITING BIO -->
+<input type="checkbox" id="my-modalpost-edit" class="modal-toggle" />
+<div class="modal">
+  <div class="modal-box">
+    <div class="mt-5">
+      <h3 class="font-bold text-lg">Make changes to your post below.</h3>
+      <form action="/post/editPost/<%= post.id %>?_method=PUT" method="POST">
+        <div class="mb-3">
+          <label for="title" class="form-label">Title</label>
+          <textarea maxlength="1000" class="form-control textarea-primary" id="title" name="title"><%=post.title %></textarea>
+        </div>
+        <div class="mb-3">
+          <label for="caption" class="form-label">Caption</label>
+          <textarea maxlength="1000" class="form-control textarea-primary" id="caption" name="caption"><%=post.caption %></textarea>
+        </div>
+        <button type="submit" class="btn btn-outline btn-accent">Submit Changes</button>
+      </form>
+    </div>
+    <div class="modal-action">
+      <label for="my-modalpost-edit" class="btn">Go back</label>
+    </div>
+  </div>
+</div>
 <%- include('partials/footer') -%>
