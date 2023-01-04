@@ -2,8 +2,43 @@
 
 <div class="container h-auto p-2 sm:p-6">
   <div class="card-form card shadow-xl">
-    <div class="row mt-5 justify-content-center">
 
+    <!-- DROPDOWN MENU FOR LOGGED IN USER PROFILE -->
+    <% if(user.id === loggedInUser.id) { %><div class="navbar bg-base-100">
+      <div class="flex-none z-10">
+        <ul class="menu menu-horizontal p-0">
+          <li tabindex="0">
+            <a class="btn btn-square btn-ghost">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-5 h-5 stroke-current">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path>
+              </svg>
+            </a>
+            <ul class="p-2 bg-base-100">
+<!--DELETE ACCOUNT OPTION  -->
+              <li>
+                <form action="/post/deleteAccount/?_method=DELETE" method="POST" class="col-3">
+                  <label for="my-modalaccount-delete" class="m-2 text-sky-800 cursor-pointer">Delete Account</label>
+                </form>
+              </li>
+<!-- EDIT BIOGRAPHY OPTION -->
+              <% if (user.bio != undefined) { %>
+              <li><label for="my-modalbio-edit" class=" text-sky-800 cursor-pointer"><i class="far fa-edit"></i>Edit Bio</label></li>
+<!-- DELETE BIOGRAPHY OPTION -->
+              <li>
+                <form action="/post/deleteBio/?_method=DELETE" method="POST" class="col-3 text-sky-800">
+                  <label class=" text-sky-800 fa fa-trash" type="submit"></label>Remove Bio
+                </form>
+              </li>
+              <% } %>          
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <% } %>
+
+
+    <div class="row mt-5 justify-content-center">
       <div class=" row grid grid-cols-1 md:grid-cols-2 gap-2 ">
         <div class="justify-content-center justify-self-center ">
           <!-- PROFILE PICTURE : IF SET-->
@@ -38,16 +73,17 @@
               <div class="w-48 h-48 sm:w-64 sm:h-64 group hover:bg-gray-200 opacity-60 rounded-full flex justify-center items-center cursor-pointer transition duration-500">
                 <label for="my-modalProfileImg" class="m-2 text-sky-700 cursor-pointer">
                   <img class="hidden group-hover:block w-12" src="https://www.svgrepo.com/show/33565/upload.svg" />
-                </label></div>
+                </label>
+              </div>
               <% } %>
-                <!-- To do: Add feature - If viewing another user's profile, ability to view profile imag in modal -->
-                <% if(user.id != loggedInUser.id) { %>
-                <div class="invisible w-48 h-48 sm:w-64 sm:h-64 group hover:bg-gray-200 opacity-60 rounded-full flex justify-center items-center cursor-pointer transition duration-500">
-                  <form action="" method="POST" class="col-3">
-                    <button class="m-2 text-sky-700 cursor-pointer" type="submit"><img class="hidden group-hover:block w-12" src="https://www.pngrepo.com/png/133608/512/os-x.png" /></button>
-                  </form>
-                </div>
-              
+              <!-- To do: Add feature - If viewing another user's profile, ability to view profile imag in modal -->
+              <% if(user.id != loggedInUser.id) { %>
+              <div class="invisible w-48 h-48 sm:w-64 sm:h-64 group hover:bg-gray-200 opacity-60 rounded-full flex justify-center items-center cursor-pointer transition duration-500">
+                <form action="" method="POST" class="col-3">
+                  <button class="m-2 text-sky-700 cursor-pointer" type="submit"><img class="hidden group-hover:block w-12" src="https://www.pngrepo.com/png/133608/512/os-x.png" /></button>
+                </form>
+              </div>
+
               <% } %>
             </div>
           </div>
@@ -63,27 +99,10 @@
         <div class="row justify-content-center place-self-center">
           <% if (user.bio != undefined) { %> <span>
             <blockquote class="m-0">
-              <p class="bg-slate-100 p-3 sm:p-16 rounded italic tracking-wide"><%= user.bio %></p>
+              <p class="bg-slate-100 p-3 sm:p-16 rounded italic tracking-wide">About me: <%= user.bio %></p>
             </blockquote>
           </span>
-
-          <div class="row grid grid-cols-3 sm:grid-cols-3">
-            <% if(user.id === loggedInUser.id) { %>
-
-            <label for="my-modalbio-edit" class="m-2 text-sky-800 cursor-pointer"><i class="far fa-edit"></i></label>
-            <!-- DELETE BIO -->
-            <form action="/post/deleteBio/?_method=DELETE" method="POST" class="col-3">
-              <button class="btn btn-ghost text-sky-800 fa fa-trash" type="submit"></button>
-            </form>
-            <% } %>
-            <% } %>
-            <!-- DELETE ACCOUNT  -->
-            <% if(user.id === loggedInUser.id) { %>
-            <form action="/post/deleteAccount/?_method=DELETE" method="POST" class="col-3">
-              <label for="my-modalaccount-delete" class="m-2 text-sky-800 cursor-pointer">del.acc</label>
-            </form>
-            <% } %>
-          </div>
+          <% } %>
           <a class="btn btn-outline btn-accent m-2" href="/feed">Return to Feed</a>
           <!-- IF LOGGED IN USER'S PROFILE DISPLAY THESE OPTIONS -->
           <% if(user.id === loggedInUser.id) { %>
@@ -93,11 +112,10 @@
           <% } %>
         </div>
       </div>
-
-
     </div>
   </div>
 </div>
+
 <!-- SHOW PROFILE ARTWORK/COLLECTIONS -->
 <div class="row card card-form ">
   <div class="col-12">
